@@ -1,28 +1,51 @@
-import { useState } from 'react'
+import { useRef } from "react";
+import Hero from "./components/Hero";
+import DownloadSection from "./components/DownloadSection";
+import Features from "./components/Features";
+import FAQ from "./components/FAQ";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const downloadRef = useRef(null);
+
+  const scrollToDownload = () => {
+    downloadRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
+    <div className="min-h-screen bg-white">
+      {/* Top nav */}
+      <header className="sticky top-0 z-30 border-b border-gray-100 bg-white/70 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <a href="#" className="text-lg font-bold tracking-tight text-gray-900">
+            Jenny Mod
+          </a>
+          <nav className="hidden gap-6 text-sm text-gray-700 sm:flex">
+            <a className="hover:text-indigo-600" href="#download">Download</a>
+            <a className="hover:text-indigo-600" href="#how-to-install">How to install</a>
+          </nav>
           <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+            onClick={scrollToDownload}
+            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500"
           >
-            Count is {count}
+            Get Latest
           </button>
         </div>
-      </div>
-    </div>
-  )
-}
+      </header>
 
-export default App
+      <main>
+        <Hero onDownloadClick={scrollToDownload} />
+        <div ref={downloadRef}>
+          <DownloadSection />
+        </div>
+        <Features />
+        <FAQ />
+      </main>
+
+      <footer className="border-t border-gray-100 bg-white">
+        <div className="mx-auto max-w-6xl px-6 py-8 text-center text-sm text-gray-500">
+          This site is a community fan page providing a clean link to the latest release. We do not host or distribute copyrighted game files. Minecraft is a trademark of Mojang AB.
+        </div>
+      </footer>
+    </div>
+  );
+}
